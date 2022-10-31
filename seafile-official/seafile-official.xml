@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Seafile-Official</Name>
+  <Repository>seafileltd/seafile-mc</Repository>
+  <Registry>https://hub.docker.com/r/seafileltd/seafile-mc</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/piranha771/unraid-templates/issues</Support>
+  <Project>https://www.seafile.com/</Project>
+  <Overview>This template is for the official seafile docker image (seafile-mc) which gets regular updates.&#xD;
+&#xD;
+Seafile is an open source file sync&amp;amp;share solution designed for high reliability, performance and productivity. Sync, share and collaborate across devices and teams. Build your team's knowledge base with Seafile's built-in Wiki feature.&#xD;
+&#xD;
+**If you get "bad gateway" it's commonly because seafile has no connection to the db or the credentials that seafile created for itself during the root access are wrong. The latter can happen if the db is not clean. When starting with Seafile please make sure you have a "fresh" db container, so Seafile can do it's root stuff on the db for once.**&#xD;
+&#xD;
+---&#xD;
+&#xD;
+# Installation Tutorial For Beginners&#xD;
+&#xD;
+1. Create a docker network (if you don't have a custom one yet):&#xD;
+  1.1 Open unRAID terminal with top right "&amp;gt;_" button.&#xD;
+  1.2 Enter 'docker network create dockernet' without quotation marks.&#xD;
+  1.3 Close terminal.&#xD;
+  (Info: This creates a special network where services can communicate via hostnames. Look at "Name:" and "SQL Host:" in the next steps to see whats possible now.)&#xD;
+  &#xD;
+2. Install mgutt's "MariaDB-Official" from APPS and configure as following:&#xD;
+  Name: **seafile-mariadb**&#xD;
+  Network Type: dockernet&#xD;
+  Port: 3306 &#xD;
+  Generate Random Password: remove 'yes'. This field needs to be blank&#xD;
+  DB Name: db&#xD;
+  DB User: db&#xD;
+  DB PW: db&#xD;
+  Data: /mnt/user/appdata/**seafile-mariadb**/data&#xD;
+  Config: /mnt/user/appdata/**seafile-mariadb**/config&#xD;
+  Show more settings&#xD;
+  Root Password: choose a password here&#xD;
+  (This mariadb is ONLY for the seafile service. If you need another db, create another container.)&#xD;
+&#xD;
+3. Get Seafile-Official and config as follows:&#xD;
+  Name: seafile&#xD;
+  Network Type: dockernet&#xD;
+  Port: 8080 (or whatever you want)&#xD;
+  SQL Host: seafile-mariadb&#xD;
+  SQL Root Password: the password you have chosen before&#xD;
+  The rest is pretty self explanatory&#xD;
+  &#xD;
+&#xD;
+  </Overview>
+  <Category>Backup: Cloud: Status:Stable</Category>
+  <WebUI>http://[IP]:[PORT:80]</WebUI>
+  <TemplateURL/>
+  <Icon>https://raw.githubusercontent.com/piranha771/unraid-templates/main/seafile-official/seafile-logo.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1667233782</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>- MariaDB or another compatible SQL server (**needed**)&#xD;
+- memcached (optional)&#xD;
+- A reverse proxy like Nginx-Proxy-Manager (optional)&#xD;
+&#xD;
+For further options check out the compose file:&#xD;
+https://download.seafile.com/d/320e8adf90fa43ad8fee/files/?p=%2Fdocker%2Fdocker-compose.yml</Requires>
+  <Config Name="Port" Target="80" Default="80" Mode="tcp" Description="Web UI http port." Type="Port" Display="always-hide" Required="true" Mask="false">8080</Config>
+  <Config Name="SQL Host" Target="DB_HOST" Default="" Mode="" Description="IP or hostname to the SQL server including the port if it's not 3306.&#13;&#10;Examples: 192.168.1.64:4444, 192.168.1.1, seafile-mariadb." Type="Variable" Display="always-hide" Required="true" Mask="false"/>
+  <Config Name="SQL Root Password" Target="DB_ROOT_PASSWD" Default="" Mode="" Description="Root password of SQL service." Type="Variable" Display="always-hide" Required="true" Mask="false"/>
+  <Config Name="Admin Email" Target="SEAFILE_ADMIN_EMAIL" Default="me@example.com" Mode="" Description="Specifies Seafile admin user, default is 'me@example.com'." Type="Variable" Display="always-hide" Required="true" Mask="false">me@example.com</Config>
+  <Config Name="Admin Password" Target="SEAFILE_ADMIN_PASSWORD" Default="asecret" Mode="" Description="Specifies Seafile admin password, default is 'asecret'." Type="Variable" Display="always-hide" Required="true" Mask="false">asecret</Config>
+  <Config Name="Data Path" Target="/shared" Default="/mnt/user/appdata/seafile/data" Mode="rw" Description="This is where all your hosted files, logs and seafile configurations will be stored." Type="Path" Display="always-hide" Required="true" Mask="false">/mnt/user/appdata/seafile/</Config>
+  <Config Name="Seafile Hostname" Target="SEAFILE_SERVER_HOSTNAME" Default="seafile.example.com" Mode="" Description="IP or hostname for this Seafile server. Unless you want to use https. Leave as it is. Can be changed later in the web admin settings.&#13;&#10;Examples: 192.168.1.64, seafile.mydomain.com" Type="Variable" Display="advanced-hide" Required="true" Mask="false">seafile.example.com</Config>
+  <Config Name="SSL/TLS PORT" Target="443" Default="" Mode="tcp" Description="Recommended to leave blank. Specify a port only if you intend to use SSL/TLS without a reverse proxy.&#13;&#10;Reverse proxy is recommended." Type="Port" Display="advanced-hide" Required="false" Mask="false"/>
+  <Config Name="Create a Let's Encrypt Certificate" Target="SEAFILE_SERVER_LETSENCRYPT" Default="false" Mode="" Description="Seafile will request and install a SSL-Certificate by itself based on the Seafile hostanme.&#13;&#10;Only viable with SSL/TLS Port. Domain needed. Do not use when using a reverse proxy (recommended)." Type="Variable" Display="advanced-hide" Required="false" Mask="false">false</Config>
+</Container>
