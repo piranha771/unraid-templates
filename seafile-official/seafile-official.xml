@@ -29,7 +29,7 @@ Seafile is an open source file sync&amp;amp;share solution designed for high rel
   Name: **seafile-mariadb**&#xD;
   Network Type: dockernet&#xD;
   Port: 3306 &#xD;
-  Generate Random Password: remove 'yes'. This field needs to be blank&#xD;
+  Generate Random Password: remove 'yes'. This field needs to be blank.&#xD;
   DB Name: db&#xD;
   DB User: db&#xD;
   DB PW: db&#xD;
@@ -52,7 +52,7 @@ Seafile is an open source file sync&amp;amp;share solution designed for high rel
   <Category>Backup: Cloud: Status:Stable</Category>
   <WebUI>http://[IP]:[PORT:80]</WebUI>
   <TemplateURL/>
-  <Icon>https://raw.githubusercontent.com/piranha771/unraid-templates/main/seafile-official/seafile-logo.png</Icon>
+  <Icon>https://raw.githubusercontent.com/piranha771/unraid-templates/main/seafile-official/seafile-official.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
